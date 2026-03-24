@@ -2,6 +2,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import sharp from "sharp";
 import { imageLimit } from "@/lib/ratelimit";
 
+export const maxDuration = 60;
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "anonymous";
   const { success } = await imageLimit.limit(ip);
