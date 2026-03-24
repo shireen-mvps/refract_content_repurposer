@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       imageFormat,
       productImage,
       productImageMimeType,
+      customPrompt,
     } = await req.json();
 
     const [width, height] = (imageFormat || "1024x1024").split("x");
@@ -46,30 +47,34 @@ export async function POST(req: Request) {
         ? "LANDSCAPE (16:9 aspect ratio — wider than tall)"
         : "PORTRAIT (9:16 aspect ratio — taller than wide)";
 
+    const customSection = customPrompt
+      ? `\nAdditional instructions from the user: ${customPrompt}`
+      : "";
+
     const prompt = productImage
       ? `You are a professional product photographer and image generator.
 
 IMPORTANT: Generate this image in ${aspectRatio}. The composition must fill a ${aspectRatio} frame.
 
-Using the uploaded product image as the exact subject, create a high-quality marketing photograph.
+Using the uploaded reference image as the exact subject, create a high-quality marketing photograph.
 
 Business: ${businessName} (${businessType})
 Content type: ${contentType}
 Style: ${styleDesc}
-Context: ${excerpt}
+Context: ${excerpt}${customSection}
 
 Instructions:
-- Keep the product as the hero of the image — do not replace or alter it
-- Apply the specified style to the setting, lighting, and composition around the product
+- Keep the subject as the hero of the image — do not replace or alter it
+- Apply the specified style to the setting, lighting, and composition around the subject
 - No text, watermarks, or logos in the image
 - High quality, commercially usable, visually striking`
       : `Generate this image in ${aspectRatio}. The composition must fill a ${aspectRatio} frame.
 
-Create a high-quality marketing photograph for a ${businessType} business called "${businessName}".
+Create a high-quality marketing image for a ${businessType} business called "${businessName}".
 
 Content type: ${contentType}
 Style: ${styleDesc}
-Context: ${excerpt}
+Context: ${excerpt}${customSection}
 
 Instructions:
 - No text, watermarks, or logos in the image

@@ -230,6 +230,7 @@ function ImageGenerationCard({
   const [productImage, setProductImage] = useState<string | null>(null);
   const [productImageMimeType, setProductImageMimeType] = useState("image/jpeg");
   const [productImagePreview, setProductImagePreview] = useState<string | null>(null);
+  const [customPrompt, setCustomPrompt] = useState("");
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -264,6 +265,7 @@ function ImageGenerationCard({
           imageFormat,
           productImage,
           productImageMimeType,
+          customPrompt: customPrompt.trim() || undefined,
         }),
       });
 
@@ -291,7 +293,7 @@ function ImageGenerationCard({
     <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <span className="text-xl">🖼️</span>
-        <span className="text-sm font-semibold text-gray-800">Generate a Product Image</span>
+        <span className="text-sm font-semibold text-gray-800">Generate a Marketing Image</span>
         <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 ml-auto">
           Powered by Gemini
         </span>
@@ -305,18 +307,33 @@ function ImageGenerationCard({
         </div>
       ) : (
         <>
-          {/* Product image upload */}
+          {/* Custom prompt */}
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-2">
-              Upload Your Product Image{" "}
-              <span className="text-gray-400 font-normal">(optional — improves results)</span>
+              Describe your image{" "}
+              <span className="text-gray-400 font-normal">(optional — for services or specific ideas)</span>
+            </label>
+            <textarea
+              value={customPrompt}
+              onChange={(e) => setCustomPrompt(e.target.value)}
+              placeholder="e.g. A calming massage room with soft lighting and white towels, or a coach presenting to a small group..."
+              rows={2}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition resize-none leading-relaxed"
+            />
+          </div>
+
+          {/* Reference image upload */}
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-2">
+              Upload a reference image{" "}
+              <span className="text-gray-400 font-normal">(optional — product photo or logo)</span>
             </label>
             <label className="flex flex-col items-center justify-center w-full cursor-pointer">
               {productImagePreview ? (
                 <div className="relative w-full">
                   <img
                     src={productImagePreview}
-                    alt="Product preview"
+                    alt="Reference preview"
                     className="w-full max-h-40 object-contain rounded-xl border border-gray-200 bg-gray-50"
                   />
                   <button
@@ -345,7 +362,7 @@ function ImageGenerationCard({
                       d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <span className="text-xs text-gray-500">Click to upload product photo</span>
+                  <span className="text-xs text-gray-500">Click to upload product photo or logo</span>
                   <span className="text-xs text-gray-400">JPG, PNG, WEBP</span>
                 </div>
               )}
