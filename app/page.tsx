@@ -282,8 +282,8 @@ function ImageGenerationCard({
       }
 
       setImageUrl(data.imageUrl);
-    } catch {
-      setImageError("Network error. Please check your connection and try again.");
+    } catch (err) {
+      setImageError(err instanceof Error ? err.message : "Network error. Please check your connection and try again.");
     } finally {
       setImageLoading(false);
     }
