@@ -6,7 +6,7 @@
 
 Built with **Next.js 15**, **Vercel AI SDK**, and **Claude AI (claude-sonnet-4-6)**.
 
-**Live demo:** [ai-content-repurposer-nu.vercel.app](https://ai-content-repurposer-nu.vercel.app)
+**Live demo:** [refract-nu.vercel.app](https://refract-nu.vercel.app)
 
 ---
 
